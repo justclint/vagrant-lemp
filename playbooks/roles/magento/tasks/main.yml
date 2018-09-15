@@ -1,0 +1,66 @@
+---
+- name: Create MySQL database for Magento
+  mysql_db: name={{ db_name }} state=present
+
+- name: Create MySQL user for Magento
+  mysql_user: name={{ db_username }} password={{ db_password }} priv=*.*:ALL state=present
+
+- name: Clone Magento 2 community edition
+  git: repo=https://github.com/magento/magento2.git
+       dest=/var/www/project/magento
+       update=no
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy across new php-fpm pool config for Magento
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/magento.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy across new virtual host for magento
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/magento.conf
+  notify:
+    - restart nginx
+
+- name: Enable new vagrant virtual host for Magento
+  file:
+    src=/etc/nginx/sites-available/magento.conf
+    dest=/etc/nginx/sites-enabled/magento.conf
+    state=link
+  notify:
+    - restart nginx
+
+- name: Install Magento composer dependencies
+  shell: cd {{ document_root }}/magento && COMPOSER_PROCESS_TIMEOUT={{composer_process_timeout}} composer install
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Install Magento
+  shell:
+    php {{ document_root }}/magento/bin/magento setup:install
+    --base-url="{{ base_url }}"
+    --db-host="{{ db_host }}"
+    --db-name="{{ db_name }}"
+    --db-user="{{ db_username }}"
+    --db-password="{{ db_password }}"
+    --admin-firstname="{{ admin_first_name }}"
+    --admin-lastname="{{ admin_last_name }}"
+    --admin-email="{{ admin_email }}"
+    --admin-user="{{ admin_username }}"
+    --admin-password="{{ admin_password }}"
+    --language="en_US"
+    --currency="USD"
+    --timezone="America/Chicago"
+    --use-rewrites="1"
+    --backend-frontname="admin"
+
+- name: Setup Magento
+  shell: php {{ document_root }}/magento/bin/magento setup:upgrade
+  shell: php {{ document_root }}/magento/bin/magento setup:static-content:deploy -f
+
+- name: Clear Magento cache
+  shell: php {{ document_root }}/magento/bin/magento cache:flush
