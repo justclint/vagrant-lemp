@@ -8,7 +8,7 @@ server {
     # listen [::]:80;
 
     server_name {{ project_name }}.local;
-    root /var/www/project;
+    root /var/www/{{ project_name }};
     index  index.html index.htm index.php;
 
     location ~ \.php$ {
