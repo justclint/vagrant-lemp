@@ -1,11 +1,10 @@
 # vagrant-lemp-project-wrapper
+This is a VM system wrapper for new projects. To use, download this repository. Do not clone unless contributing back.
 
 ## Requirements
 - Vagrant
 - Vagrant hostupdater
 - Virtualbox
-
-This is a VM system wrapper for new projects. To use, download this repository. Do not clone unless contributing back.
 
 ## Instructions
 1. Make a copy of playbooks/roles/project-template and rename it to your project name.
