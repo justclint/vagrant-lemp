@@ -1,7 +1,4 @@
 ---
-- name: Setup docroot for project
-  shell: mkdir /var/www/{{ project_name }}
-
 - name: Copy over index.php
   template:
     src=index.php.j2

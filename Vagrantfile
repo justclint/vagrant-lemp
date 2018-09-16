@@ -1,10 +1,12 @@
 # Optimized for Vagrant 1.7 and above.
 Vagrant.require_version ">= 1.7.0"
 
+vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), 'playbooks/vagrant.yml'))
+
 Vagrant.configure(2) do |config|
 
   config.vm.box = "bento/ubuntu-16.04"
-  config.vm.synced_folder "./project", "/var/www"
+  config.vm.synced_folder "./project", "/var/www/#{vagrant_config[0]["vars"]["project_name"]}"
 
   # Disable the new default behavior introduced in Vagrant 1.7, to
   # ensure that all Vagrant machines will use the same SSH key pair.
@@ -19,4 +21,5 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.50.4"
+  config.vm.hostname = "#{vagrant_config[0]["vars"]["project_name"]}.local"
 end
