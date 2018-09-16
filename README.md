@@ -1,6 +1,11 @@
 # vagrant-lemp-project-wrapper
 
-This is a VM system wrapper for PHP projects. To use, download this repository. Do not clone unless contributing back.
+Requirements:
+- Vagrant
+- Vagrant hostupdater
+- Virtualbox
+
+This is a VM system wrapper for new projects. To use, download this repository. Do not clone unless contributing back.
 
 - Make a copy of playbooks/roles/project-template and rename it to your project name.
 - In playbooks/vagrant.yml under vars, add your project name.
@@ -10,6 +15,7 @@ This is a VM system wrapper for PHP projects. To use, download this repository. 
 When logged into the VM, your project files are in /var/www
 
 This is the vanilla setup. Depending on your application, you may need to make
-config adjustments for roles like nginx, php or mysql.
+configuration adjustments.
 
-Once you confirm your project is working commit this to your new repository.
+Once you confirm your project is working commit this to your new repository and
+replace this readme contents with your new info.
