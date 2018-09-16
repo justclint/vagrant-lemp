@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    project_name: "project-name"
+    project_name: "superfly"
     document_root: /var/www
     www_user: vagrant
     www_group: vagrant
@@ -16,4 +16,4 @@
     - php
     - php-devtools
     - php-fpm
-    - project-template
+    - "{{ project_name }}"
