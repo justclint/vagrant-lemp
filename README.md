@@ -1,13 +1,13 @@
 # vagrant-lemp-project-wrapper
 
-*Requirements:*
+## Requirements:
 - Vagrant
 - Vagrant hostupdater
 - Virtualbox
 
 This is a VM system wrapper for new projects. To use, download this repository. Do not clone unless contributing back.
 
-*Instructions:*
+## Instructions:
 1. Make a copy of playbooks/roles/project-template and rename it to your project name.
 2. In playbooks/vagrant.yml under vars, add your project name.
 3. Run `vagrant up`
