@@ -3,7 +3,9 @@
 This is a VM system wrapper for PHP projects. To use, download this repository. Do not clone unless contributing back.
 
 - Make a copy of playbooks/roles/project-template and rename it to your project name.
-- In playbooks/vagrant.yml under roles, replace project-template with your project name.
+- In playbooks/vagrant.yml
+-- under vars, add your project name.
+-- under roles, replace project-template with your project name.
 - Run `vagrant up`
 - Visit your-project-name.local
 - Add your application files in the project directory.
