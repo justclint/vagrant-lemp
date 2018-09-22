@@ -1,8 +1,11 @@
 # Optimized for Vagrant 1.7 and above.
 Vagrant.require_version ">= 1.7.0"
 
-# @todo need to create a base config/var file.
-vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), 'playbooks/project-angular.yml'))
+# Choose your project type: php or angular
+# @todo need to get this setting into plays or single config vars file.
+config_type = "php"
+config_file = "playbooks/project-#{config_type}.yml"
+vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), "#{config_file}"))
 
 Vagrant.configure(2) do |config|
 
@@ -17,7 +20,7 @@ Vagrant.configure(2) do |config|
   # Run Ansible from the Vagrant VM
   config.vm.provision "ansible_local" do |ansible|
     ansible.verbose = "vv"
-    ansible.playbook = "playbooks/project-angular.yml"
+    ansible.playbook = "#{config_file}"
   end
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
