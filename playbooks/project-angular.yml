@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    project_name: "ng-test"
+    project_name: "angular-project"
     document_root: /var/www
     www_user: vagrant
     www_group: vagrant
