@@ -6,3 +6,8 @@
     - python-mysqldb
     - zip
     - unzip
+
+- name: Add .bash_profile
+  template:
+    src=.bash_profile.j2
+    dest=/home/{{ www_user }}/.bash_profile
