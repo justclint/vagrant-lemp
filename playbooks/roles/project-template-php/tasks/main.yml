@@ -1,0 +1,33 @@
+---
+- name: Copy over index.php
+  template:
+    src=index.php.j2
+    dest={{ document_root }}/{{ project_name }}/index.php
+
+- name: Create MySQL database
+  mysql_db: name={{ db_name }} state=present
+
+- name: Create MySQL user
+  mysql_user: name={{ db_username }} password={{ db_password }} priv=*.*:ALL state=present
+
+- name: Copy over project php-fpm pool config
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/{{ project_name }}.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy over project virtual host
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/{{ project_name }}.conf
+  notify:
+    - restart nginx
+
+- name: Enable project virtual host
+  file:
+    src=/etc/nginx/sites-available/{{ project_name }}.conf
+    dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+    state=link
+  notify:
+    - restart nginx
