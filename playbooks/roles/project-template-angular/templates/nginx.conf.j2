@@ -1,0 +1,18 @@
+server {
+    ## If default vhost
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    ## If additional vhost
+    # listen 80;
+    # listen [::]:80;
+
+    server_name {{ project_name }}.local;
+    root {{ document_root }}/{{ project_name }}/dist/{{ project_name }};
+    index  index.html
+
+    try_files $uri $uri/ index.html;
+
+    error_log /var/log/nginx/{{ project_name }}_error.log;
+    access_log /var/log/nginx/{{ project_name }}_access.log;
+}

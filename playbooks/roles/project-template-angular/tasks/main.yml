@@ -1,0 +1,26 @@
+---
+- name: Copy over project virtual host
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/{{ project_name }}.conf
+  notify:
+    - restart nginx
+
+- name: Enable project virtual host
+  file:
+    src=/etc/nginx/sites-available/{{ project_name }}.conf
+    dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+    state=link
+  notify:
+    - restart nginx
+
+- name: Clear project directory
+  shell: rm -f {{ document_root }}/{{ project_name }}/*
+
+- name: Create new project.
+  shell: cd {{ document_root }} && ng new {{ project_name }}
+
+- name: Build dist directory.
+  shell:
+    cd {{ document_root }}/{{ project_name }} &&
+    ng build --prod --base-href http://{{ project_name }}.local:80

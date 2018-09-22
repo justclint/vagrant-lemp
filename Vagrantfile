@@ -1,7 +1,8 @@
 # Optimized for Vagrant 1.7 and above.
 Vagrant.require_version ">= 1.7.0"
 
-vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), 'playbooks/vagrant.yml'))
+# @todo need to create a base config/var file.
+vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), 'playbooks/project-angular.yml'))
 
 Vagrant.configure(2) do |config|
 
@@ -16,10 +17,16 @@ Vagrant.configure(2) do |config|
   # Run Ansible from the Vagrant VM
   config.vm.provision "ansible_local" do |ansible|
     ansible.verbose = "vv"
-    ansible.playbook = "playbooks/vagrant.yml"
+    ansible.playbook = "playbooks/project-angular.yml"
   end
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.50.4"
   config.vm.hostname = "#{vagrant_config[0]["vars"]["project_name"]}.local"
+  config.vm.post_up_message = "You can now view your project at http://#{vagrant_config[0]["vars"]["project_name"]}.local"
+
+  # Config VirtualBox.
+  config.vm.provider "virtualbox" do |v|
+    v.name = config.vm.hostname
+  end
 end
