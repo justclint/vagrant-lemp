@@ -1,4 +1,0 @@
----
-db_name: "{{ project_name }}"
-db_username: "admin"
-db_password: "admin"
