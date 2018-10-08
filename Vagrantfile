@@ -10,7 +10,7 @@ vagrant_config = YAML.load_file(File.join(File.dirname(__FILE__), "#{config_file
 Vagrant.configure(2) do |config|
 
   config.vm.box = "bento/ubuntu-16.04"
-  config.vm.synced_folder "./project", "/var/www/#{vagrant_config[0]["vars"]["project_name"]}"
+  config.vm.synced_folder "./docroot", "/var/www/#{vagrant_config[0]["vars"]["project_name"]}"
 
   # Disable the new default behavior introduced in Vagrant 1.7, to
   # ensure that all Vagrant machines will use the same SSH key pair.
