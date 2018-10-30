@@ -8,7 +8,7 @@ This is a VM system wrapper for new projects. To use, download this repository. 
 
 ## Instructions
 1. Make a copy of playbooks/roles/project-template and rename it to your project name.
-2. In playbooks/vagrant.yml under vars, add your project name.
+2. In playbooks/project-{type}.yml under vars, add your project name.
 3. In Vagrantfile set config_type to either php or angular.
 4. Run `vagrant up`
 
